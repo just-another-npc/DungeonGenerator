@@ -1,12 +1,14 @@
 namespace Engine.Maze {
     public class Grid {
-        private readonly int _w;
-        private readonly int _h;
+        // Width of the dungeon, 0 based.
+        public readonly int Width;
+        // Height of the dungeon, 0 based.
+        public readonly int Height;
         public readonly Cell[,] Cells;
 
         public Grid(int width, int height) {
-            _w = width;
-            _h = height;
+            Width = width;
+            Height = height;
             Cells = new Cell[width, height];
 
             for (int w = width - 1; w >= 0; w--) {
@@ -20,8 +22,8 @@ namespace Engine.Maze {
         
         // Links the cells in the grid. (0,0) is top left, (width,height) bottom right
         private void Link() {
-            for (int x = 0; x < _w; x++) {
-                for (int y = 0; y < _h; y++) {
+            for (int x = 0; x < Width; x++) {
+                for (int y = 0; y < Height; y++) {
 
                     // North
                     if (y > 0) {
@@ -29,12 +31,12 @@ namespace Engine.Maze {
                     }
 
                     // South
-                    if (y < _h-1) {
+                    if (y < Height-1) {
                         Cells[x,y].South = Cells[x,y+1];
                     }
 
                     // East
-                    if (x < _w-1) {
+                    if (x < Width-1) {
                         Cells[x,y].East = Cells[x+1,y];
                     }
 
