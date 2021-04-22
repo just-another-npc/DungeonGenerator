@@ -11,8 +11,8 @@ namespace Engine
         private readonly Random _random;
         private Grid _dungeon;
 
-        public int Width = 10;
-        public int Height = 5;
+        public int Width = 20;
+        public int Height = 10;
 
         public GeneratorEngine(int seed) {
             _seed = seed;

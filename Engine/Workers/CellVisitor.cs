@@ -9,6 +9,7 @@ namespace Engine.Workers {
         private readonly bool[,] _visited;
         public readonly Grid Dungeon;
         private readonly int _turnChance;
+        private readonly List<Cell> _visitedCells = new List<Cell>();
 
         public CellVisitor(Grid dungeon, Random rng, int turnChance) {
             _rng = rng;
@@ -28,6 +29,11 @@ namespace Engine.Workers {
             {
                 Cell nextCell = null;
                 _visited[curCell.X, curCell.Y] = true;
+
+                if (!_visitedCells.Contains(curCell))
+                {
+                    _visitedCells.Add(curCell);
+                }
 
                 if (_rng.Next(0, 100) <= _turnChance || !lastValid) {
                     nextDir = _rng.Next(0, 4);
@@ -81,8 +87,14 @@ namespace Engine.Workers {
                     }
                 }
 
-                if (!lastValid && dirsUsed.Count == 4)
-                    canMove = false;
+                if (!lastValid && dirsUsed.Count == 4) {
+                    if (_visitedCells.Count == Dungeon.Width * Dungeon.Height) {
+                        canMove = false;
+                    }
+                    else {
+                        curCell = _visitedCells.ElementAt(_rng.Next(0, _visitedCells.Count));
+                    }
+                }
             }
         }
     }
